@@ -1,0 +1,100 @@
+import { Card, Pagination, Select, Skeleton, Table } from "antd";
+import type { TablePaginationConfig, TableProps } from "antd";
+import { memo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import TitleTemplate from "../lable-base/TitleTemplate";
+
+import './index.css'
+
+const { Option } = Select;
+
+interface PaginationProps {
+  current: number;
+  size: number;
+  total: number;
+}
+interface TableTemplateProps extends TableProps {
+  paginationProp: PaginationProps;
+  dataSource: Array<any>;
+  columns: Array<any>;
+  active: any;
+  title: any;
+  skeleton?: boolean;
+  onChange: (
+    pagination: TablePaginationConfig,
+    filters: any,
+    sorter: any,
+    extra: any
+  ) => void;
+  handlePageSizeChange: (value: number) => void;
+  handlePaginationChange: (page: number) => void;
+}
+
+function TableTemplate({
+  loading,
+  rowSelection,
+  expandable,
+  active,
+  title,
+  skeleton,
+  dataSource, columns, paginationProp, onChange, handlePageSizeChange, handlePaginationChange, ...restProps
+}: TableTemplateProps) {
+  const { t } = useTranslation();
+  const [pageSize, setPageSize] = useState<number>(paginationProp.size);
+  const [current, setCurrent] = useState<number>(paginationProp.current);
+   
+  const sizeChange = (value: number) => {
+    setPageSize(value);
+    handlePageSizeChange(value);
+    setCurrent(0);
+  };
+
+  const paginationChange = (page: number) => {
+    setCurrent(page);
+    handlePaginationChange(page);
+  };
+
+  return (
+    <>
+      <Card
+        className="shadow-custom"
+        title={<TitleTemplate level={4}>{title && (typeof title === 'function' ? title() : title)}</TitleTemplate>}
+        extra={active}>
+          <Skeleton loading={skeleton === undefined ? false : skeleton}>
+          <Table
+              size="small"
+              scroll={{ x: "auto" }}
+              dataSource={dataSource}
+              columns={columns}
+              pagination={false}
+              rowKey="rowNumber"
+              onChange={onChange}
+              loading={loading}
+              {...restProps}
+            />
+            <div className="flex justify-center mt-5">
+              <Pagination
+                className="mr-3"
+                total={paginationProp.total * pageSize}
+                showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+                pageSize={pageSize}
+                current={current}
+                onChange={paginationChange}
+                showSizeChanger={false}
+              />
+              
+              <Select value={pageSize} onChange={sizeChange}>
+                <Option value={10}>10 {t('common.pagination.page')}</Option>
+                <Option value={20}>20 {t('common.pagination.page')}</Option>
+                <Option value={30}>30 {t('common.pagination.page')}</Option>
+                <Option value={50}>50 {t('common.pagination.page')}</Option>
+                <Option value={100}>100 {t('common.pagination.page')}</Option>
+              </Select>
+            </div>
+          </Skeleton>
+      </Card>
+    </>
+  );
+};
+
+export default memo(TableTemplate);
