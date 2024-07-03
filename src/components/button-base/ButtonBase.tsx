@@ -52,6 +52,23 @@ const ButtonBase: React.FC<ButtonBaseProps> = ({
             {t("common.button.create")}
           </Button>
         </>
+      ) : category === "remove" ? (
+        <>
+          <Button
+            loading={loading}
+            onClick={onClick}
+            className={`btn__custom btn__add ${restProps.className}`}
+            {...restProps}
+            icon={
+              <FontAwesomeBase
+                className="m2-3"
+                iconName={"remove"}
+              ></FontAwesomeBase>
+            }
+          >
+            {t("common.button.delete")}
+          </Button>
+        </>
       ) : category === "back" ? (
         <>
           <Button
@@ -100,7 +117,7 @@ const ButtonBase: React.FC<ButtonBaseProps> = ({
             {t("common.button.goToUpdate")}
           </Button>
         </>
-      ) : category === "remove" ? (
+      ) : category === "detail" ? (
         <>
           <Button
             className="mx-2 btn btn__table btn__detail"

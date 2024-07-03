@@ -110,6 +110,20 @@ export const vi = {
     formTempate: {
       title: "Mẫu Form"
     }
+  },
+  demoCrud: {
+    title: "Demo nhé",
+    breakcrumb: {
+      one: "Demo",
+      two: "demo 1"
+    },
+    table: {
+      name: "Tên demo",
+      code: "Mã demo",
+    },
+    titleCreate: "Thêm Demo",
+    titleUpdate: "Update Demo",
+    titleDetail: "Xem chi tiết Demo"
   }
 };
   

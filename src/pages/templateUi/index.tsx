@@ -173,7 +173,7 @@ function TemplateUi() {
       render: (record: any) => (
         <Space size="middle">
           <Tooltip title={t("common.button.detail")}>
-            <ButtonBase category="remove"></ButtonBase>
+            <ButtonBase category="detail"></ButtonBase>
           </Tooltip>
         </Space>
       ),
