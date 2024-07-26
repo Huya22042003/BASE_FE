@@ -31,6 +31,7 @@ import TitleTemplate from "../../components/lable-base/TitleTemplate";
 import TextTemplate from "../../components/lable-base/TextTemplate";
 import FormSearchTemplate from "../../components/form-base/form-search-base/FormSearchTemplate";
 import FormSearchChildTemplate from "../../components/form-base/form-search-base/FormSearchChildTemplate";
+import { useGlobalLoading } from "../../components/global-loading/GlobalLoading";
 
 function TemplateUi() {
   const mode = TYPE_MANAGEMENT.MODE_CREATE;
@@ -58,6 +59,10 @@ function TemplateUi() {
 
   // đa ngôn ngữ
   const { t } = useTranslation();
+
+  const loading = useGlobalLoading();
+
+  loading.setLoading(false);
 
   // Data custom
   const dataComponet = [
