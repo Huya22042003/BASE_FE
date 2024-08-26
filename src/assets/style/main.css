@@ -56,7 +56,6 @@
 }
 
 /* Input */
-.ant-input-outlined,
 .jodit-container:not(.jodit_inline) .jodit-workplace {
   background: var(--backgroup-card) !important;
   border-color: var(--ant-input-outlined-border) !important;

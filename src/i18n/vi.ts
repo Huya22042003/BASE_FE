@@ -60,6 +60,9 @@ export const vi = {
       },
       confirm: "Bạn có chắc chắn muốn xóa file không?",
       success: "Tải lên file thành công!"
+    },
+    message: {
+      required: "Bạn phải nhập đủ thông tin"
     }
   },
   base: {
@@ -124,6 +127,19 @@ export const vi = {
     titleCreate: "Thêm Demo",
     titleUpdate: "Update Demo",
     titleDetail: "Xem chi tiết Demo"
-  }
+  },
+  systemMenu: {
+    title: "Menu Managent",
+    breakcrumb: {
+      one: "Trang chủ",
+      two: "Menu"
+    },
+    table: {
+      name: "Tên Menu",
+      code: "Mã Menu",
+    },
+    titleCreate: "Thêm Menu",
+    titleUpdate: "Sửa Menu",
+  },
 };
   

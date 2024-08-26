@@ -1,0 +1,204 @@
+@charset "utf-8";
+
+/*Reset css*/
+/* ================= 폰트 로드 ================= */
+@font-face {
+    font-family: 'NotoSansKR';
+    font-style: normal;
+    font-weight: 200;
+    src: url('../fonts/NotoSansKR-Light.woff2') format('font-woff2'),
+    url('../fonts/NotoSansKR-Light.woff') format('woff'),
+    url('../fonts/NotoSansKR-Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NotoSansKR';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/NotoSansKR-Regular.woff2') format('font-woff2'),
+    url('../fonts/NotoSansKR-Regular.woff') format('woff'),
+    url('../fonts/NotoSansKR-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'NotoSansKR';
+    font-style: normal;
+    font-weight: 500;
+    src: url('../fonts/NotoSansKR-Medium.woff2') format('font-woff2'),
+    url('../fonts/NotoSansKR-Medium.woff') format('woff'),
+    url('../fonts/NotoSansKR-Medium.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'NotoSansKR';
+    font-style: normal;
+    font-weight: 600;
+    src: url('../fonts/NotoSansKR-Bold.woff2') format('font-woff2'),
+    url('../fonts/NotoSansKR-Bold.woff') format('woff'),
+    url('../fonts/NotoSansKR-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Notokr';
+    font-style: normal;
+    font-weight: 200;
+    src: url('../fonts/notokr-light.woff2') format('woff2'),
+    url('../fonts/notokr-light.woff') format('woff'),
+    url('../fonts/notokr-light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Notokr';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/notokr-regular.woff2') format('woff2'),
+    url('../fonts/notokr-regular.woff') format('woff'),
+    url('../fonts/notokr-regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Notokr';
+    font-style: normal;
+    font-weight: 500;
+    src: url('../fonts/notokr-medium.woff2') format('woff2'),
+    url('../fonts/notokr-medium.woff') format('woff'),
+    url('../fonts/notokr-medium.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Notokr';
+    font-style: normal;
+    font-weight: 600;
+    src: url('../fonts/notokr-bold.woff2') format('woff2'),
+    url('../fonts/notokr-bold.woff') format('woff'),
+    url('../fonts/notokr-bold.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 200;
+    src: url('../fonts/Pretendard-Light.woff2') format('woff2'),
+    url('../fonts/Pretendard-Light.woff') format('woff'),
+    url('../fonts/Pretendard-Light.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 200;
+    src: url('../fonts/Pretendard-Light.woff2') format('woff2'),
+    url('../fonts/Pretendard-Light.woff') format('woff'),
+    url('../fonts/Pretendard-Light.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/Pretendard-Regular.woff2') format('woff2'),
+    url('../fonts/Pretendard-Regular.woff') format('woff'),
+    url('../fonts/Pretendard-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    src: url('../fonts/Pretendard-Medium.woff2') format('woff2'),
+    url('../fonts/Pretendard-Medium.woff') format('woff'),
+    url('../fonts/Pretendard-Medium.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 550;
+    src: url('../fonts/Pretendard-SemiBold.woff2') format('woff2'),
+    url('../fonts/Pretendard-SemiBold.woff') format('woff'),
+    url('../fonts/Pretendard-SemiBold.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 600;
+    src: url('../fonts/Pretendard-Bold.woff2') format('woff2'),
+    url('../fonts/Pretendard-Bold.woff') format('woff'),
+    url('../fonts/Pretendard-Bold.ttf') format('truetype');
+}
+
+
+/* ================= 기본 스타일 정의 및 초기화 ================= */
+
+* {
+    margin: 0; padding: 0; box-sizing: border-box;
+}
+
+*,*:before,*:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/** {*/
+/*	-ms-overflow-style: none;*/
+/*    scrollbar-width: none;*/
+/*}*/
+
+/*custom scroll*/
+*::-webkit-scrollbar {
+    width: 8px;  /* 스크롤바의 너비 */
+    height: 10px;  /* 스크롤바의 높이 */
+}
+body::-webkit-scrollbar {
+    width: 9px;  /* 스크롤바의 너비 */
+    height: 10px;  /* 스크롤바의 높이 */
+}
+
+*::-webkit-scrollbar-thumb {
+    background: rgba(88,93,114, 0.3); /* 스크롤바의 색상 */
+    background-clip : padding-box;
+    border: 2px solid transparent;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+*::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0);  /*스크롤바 뒷 배경 색상*/
+}
+
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video, a {
+    font-family: Pretendard, 'Arial', sans-serif;
+}
+
+html {
+    height: 100%;
+    /* iOS와 IE에서 기기 회전시에 사용자가 확대하지 않아도 글씨 크기가 재조정되는 것을 방지 */
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    width: 100%; height: 100%;
+    color: var(--drank-gray);
+    font-size: 1.4rem;
+    background-color: var(--light-steel-blue);
+    /* 웹폰트 사용시 폰트 부드럽게 랜더링 하기 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* 이미지 렌더링 - 사이즈 수정시 뚜렷하게 표시 */
+    image-rendering: -moz-crisp-edges;         /* Firefox */
+    image-rendering:   -o-crisp-edges;         /* Opera */
+    image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
+
+    /* 아이폰x 상단 safe-area 대응 */
+    padding-top: constant(safe-area-inset-top); /* iOS 11.0 */
+    padding-top: env(safe-area-inset-top); /* iOS 11.2 */
+}

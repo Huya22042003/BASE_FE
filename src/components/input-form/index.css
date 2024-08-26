@@ -1,3 +1,7 @@
-/* .ant-upload-list.ant-upload-list-text {
-    display: none;
-} */
+.input_required {
+    border-color: var(--color-red);
+}
+
+.input_required > .ant-select > .ant-select-selector {
+    border-color: var(--color-red) !important;
+}

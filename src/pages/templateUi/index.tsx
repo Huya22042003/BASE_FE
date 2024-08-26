@@ -32,6 +32,8 @@ import TextTemplate from "../../components/lable-base/TextTemplate";
 import FormSearchTemplate from "../../components/form-base/form-search-base/FormSearchTemplate";
 import FormSearchChildTemplate from "../../components/form-base/form-search-base/FormSearchChildTemplate";
 import { useGlobalLoading } from "../../components/global-loading/GlobalLoading";
+import { useAppSelector } from "../../app/hooks";
+import { CheckValidate, SelectAllFields } from "../../app/reducers/common/Validate/Validate.reducer";
 
 function TemplateUi() {
   const mode = TYPE_MANAGEMENT.MODE_CREATE;
@@ -50,9 +52,9 @@ function TemplateUi() {
   // theo dõi biến
   const input = watch("input");
 
-  useEffect(() => {
-    console.log("Theo dõi biến input: " + input);
-  }, [input]);
+  // useEffect(() => {
+  //   console.log("Theo dõi biến input: " + input);
+  // }, [input]);
 
   // Điều hướng trang
   const navigate = useNavigate();
@@ -63,7 +65,10 @@ function TemplateUi() {
   const loading = useGlobalLoading();
 
   loading.setLoading(false);
+  const data = useAppSelector(SelectAllFields);
+  const check = useAppSelector(CheckValidate);
 
+  const [fieldAdd, setFieldAdd] = useState([] as string[]);
   // Data custom
   const dataComponet = [
     {
@@ -379,9 +384,42 @@ function TemplateUi() {
       >
         <TextTemplate className="text-lg mb-4">Basic button</TextTemplate>
         <br/>
-        <ButtonBase category="bassic">Basic button</ButtonBase>
+        <ButtonBase
+  category="bassic"
+  onClick={() => {
+    const newField = `field${fieldAdd.length}`;
+    setFieldAdd([...fieldAdd, newField]); // Tạo mảng mới và thêm field mới vào
+  }}
+>
+  Add Field
+</ButtonBase>
+<ButtonBase
+  category="bassic"
+  onClick={() => {
+    const updatedFields = fieldAdd.slice(0, fieldAdd.length - 1); // Lấy tất cả phần tử trừ phần tử cuối cùng
+    setFieldAdd(updatedFields); // Cập nhật state với mảng mới
+  }}
+>
+  Delete Field
+</ButtonBase>
+        <ButtonBase
+  category="bassic"
+  onClick={() => {
+    console.log(data);
+    console.log(check);
+  }}
+  disabled={!check}
+>
+  Log field register
+</ButtonBase>
 
-        <br/>
+{fieldAdd.map((field) => (
+  <div key={field}>
+    {field}: <InputTextTemplate mode={mode} name={field} control={control} required={true} />
+  </div>
+))}
+
+<br/>
         <TextTemplate className="text-lg mb-4">Loading button</TextTemplate>
         <br/>
         <ButtonBase category="bassic" loading={true}>
@@ -447,7 +485,7 @@ function TemplateUi() {
 
           {/* Input form template */}
           <FormChildTemplate title={"Input template"} required={true}>
-            <InputTextTemplate mode={mode} name="input" control={control} />
+            <InputTextTemplate mode={mode} name="name" control={control} />
           </FormChildTemplate>
 
           {/* Radio form template */}
@@ -532,40 +570,40 @@ function TemplateUi() {
 
           {/* Input form template */}
           <FormSearchChildTemplate label={"Input template"}>
-            <InputTextTemplate mode={mode} name="input" control={control} />
+            <InputTextTemplate mode={mode} name="input1" control={control} />
           </FormSearchChildTemplate>
 
           {/* Input form template */}
           <FormSearchChildTemplate label={"Input template"}>
-            <InputTextTemplate mode={mode} name="input" control={control} />
+            <InputTextTemplate mode={mode} name="input2" control={control} />
           </FormSearchChildTemplate>
           {/* Input form template */}
           <FormSearchChildTemplate label={"Input template"}>
-            <InputTextTemplate mode={mode} name="input" control={control} />
+            <InputTextTemplate mode={mode} name="input3" control={control} />
           </FormSearchChildTemplate>
           {/* Input form template */}
           <FormSearchChildTemplate label={"Input template"}>
-            <InputTextTemplate mode={mode} name="input" control={control} />
+            <InputTextTemplate mode={mode} name="input4" control={control} />
           </FormSearchChildTemplate>
           {/* Input form template */}
           <FormSearchChildTemplate label={"Input template"}>
-            <InputTextTemplate mode={mode} name="input" control={control} />
+            <InputTextTemplate mode={mode} name="input5" control={control} />
           </FormSearchChildTemplate>
           {/* Input form template */}
           <FormSearchChildTemplate label={"Input template"}>
-            <InputTextTemplate mode={mode} name="input" control={control} />
+            <InputTextTemplate mode={mode} name="input6" control={control} />
           </FormSearchChildTemplate>
           {/* Input form template */}
           <FormSearchChildTemplate label={"Input template"}>
-            <InputTextTemplate mode={mode} name="input" control={control} />
+            <InputTextTemplate mode={mode} name="input7" control={control} />
           </FormSearchChildTemplate>
           {/* Input form template */}
           <FormSearchChildTemplate label={"Input template"}>
-            <InputTextTemplate mode={mode} name="input" control={control} />
+            <InputTextTemplate mode={mode} name="input8" control={control} />
           </FormSearchChildTemplate>
           {/* Input form template */}
           <FormSearchChildTemplate label={"Input template"}>
-            <InputTextTemplate mode={mode} name="input" control={control} />
+            <InputTextTemplate mode={mode} name="input9" control={control} />
           </FormSearchChildTemplate>
         </FormSearchTemplate>
       </CardLayoutTemplate>
