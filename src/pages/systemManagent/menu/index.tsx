@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -12,11 +12,15 @@ import FormSearchTemplate from "../../../components/form-base/form-search-base/F
 import FormSearchChildTemplate from "../../../components/form-base/form-search-base/FormSearchChildTemplate";
 import InputTextTemplate from "../../../components/input-form/InputTextTemplate";
 import TableTemplate from "../../../components/table-base/TableTemplate";
+import { MenuMngApi } from "../../../service/systemManagenment/menuMng/menuMng.service";
+import { AdMenuMngResDto } from "../../../service/systemManagenment/menuMng/menuMng.type";
+import { useGlobalLoading } from "../../../components/global-loading/GlobalLoading";
 
-function Demo() {
+function MenuMng() {
+  // start variable
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const [loading, setLoadingTable] = useState<boolean>(true);
+  const loading = useGlobalLoading();
 
   const { control, getValues, setValue } = useForm({
     defaultValues: {
@@ -31,7 +35,7 @@ function Demo() {
     },
   });
 
-  const data = [] as any[];
+  const [data, setData] = useState<AdMenuMngResDto[]>([])
 
   const columns = [
     {
@@ -44,7 +48,7 @@ function Demo() {
         getValues("current") * getValues("size") + index + 1,
     },
     {
-      title: t("demoCrud.table.name"),
+      title: t("systemMenu.table.name"),
       dataIndex: "name",
       key: "name",
       sorter: true,
@@ -52,11 +56,28 @@ function Demo() {
       sortDirections: ["descend", "ascend"],
     },
     {
-      title: t("demoCrud.table.code"),
-      dataIndex: "code",
-      key: "code",
+      title: t("systemMenu.table.parent"),
+      dataIndex: "parent",
+      key: "parent",
       sorter: true,
       showSorterTooltip: false,
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: t("systemMenu.table.module"),
+      dataIndex: "module",
+      key: "module",
+      sorter: true,
+      showSorterTooltip: false,
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: t("systemMenu.table.url"),
+      dataIndex: "url",
+      key: "url",
+      sorter: true,
+      showSorterTooltip: false,
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: t("common.action"),
@@ -68,11 +89,11 @@ function Demo() {
               category="detail"
               onClick={() =>
                 navigate(
-                  `${ROUTER_BASE.demo.path}/${TYPE_MANAGEMENT.MODE_DETAIL}?id=${record.id}`,
+                  `${ROUTER_BASE.systemMenuManagement.path}`,
                   {
                     state: {
-                      id: "hahahah",
-                      mode: TYPE_MANAGEMENT.MODE_CREATE,
+                      id: record.id,
+                      mode: TYPE_MANAGEMENT.MODE_UPDATE,
                     },
                   }
                 )
@@ -83,19 +104,27 @@ function Demo() {
       ),
     },
   ];
+  // end variable
 
+  // start setup data
+  useEffect(() => {
+    fetchData();
+  }, [])
+  // end setup data
+
+  // start method
   const handlePageSizeChange = (value: number) => {
     setValue("size", value);
-    // setLoadingTable(true);
-    // ObjectsAPI.getObjects({size: getValues("size")}).then((result: any) => {
-    //   if (result.data.data && result.data.data.data) {
-    //     dispatch(SetObjects(result.data.data.data));
-    //     setValue("current", result.data.data.currentPage);
-    //     setValue("total", result.data.data.totalPages);
-    //   }
-    // }).finally(() => {
-    //   setLoadingTable(false);
-    // });
+    loading.setLoading(true);
+    MenuMngApi.getPageMenu({size: getValues("size")}).then((result: any) => {
+      if (result.data.data && result.data.data.data) {
+        setData(result.data.data.data)
+        setValue("current", result.data.data.currentPage);
+        setValue("total", result.data.data.totalPages);
+      }
+    }).finally(() => {
+      loading.setLoading(false);
+    });
   };
 
   const handlePaginationChange = (page: number) => {
@@ -104,16 +133,16 @@ function Demo() {
   };
 
   const fetchData = () => {
-    // setLoadingTable(true);
-    // ObjectsAPI.getObjects(getValues()).then((result: any) => {
-    //   if (result.data.data && result.data.data.data) {
-    //     dispatch(SetObjects(result.data.data.data));
-    //     setValue("current", result.data.data.currentPage);
-    //     setValue("total", result.data.data.totalPages);
-    //   }
-    // }).finally(() => {
-    //   setLoadingTable(false);
-    // });
+    loading.setLoading(true);
+    MenuMngApi.getPageMenu(getValues()).then((result: any) => {
+      if (result.data.data && result.data.data.data) {
+        setData(result.data.data.data)
+        setValue("current", result.data.data.currentPage);
+        setValue("total", result.data.data.totalPages);
+      }
+    }).finally(() => {
+      loading.setLoading(false);
+    });
   };
 
   const handlePageChange = (
@@ -122,10 +151,11 @@ function Demo() {
     extra: any
   ) => {
     console.log(extra);
-    // setValue("sortType", extra.order ? extra.order.slice(0, -3) : "");
-    // setValue("sortField", extra.field);
-    // fetchData();
+    setValue("sortType", extra.order ? extra.order.slice(0, -3) : "");
+    setValue("sortField", extra.field);
+    fetchData();
   };
+  // end method
 
   return (
     <>
@@ -133,7 +163,7 @@ function Demo() {
         title={() => (
           <>
             <FontAwesomeBase className="mr-2" iconName={"filter"} />{" "}
-            {t("titleSearch")}
+            <span className="title__search">{t("titleSearch")}</span>
           </>
         )}
         className="mb-10 mt-8 shadow-md"
@@ -144,37 +174,39 @@ function Demo() {
               <ButtonBase category="clearForm"></ButtonBase>
               <ButtonBase
                 category="search"
-                onClick={() => console.log("search function")}
-              >
-                <FontAwesomeBase
-                  className="mr-1"
-                  iconName={"magnifying-glass"}
-                />
-                {t("common.formSearch.search")}
-              </ButtonBase>
+                onClick={() => fetchData()}
+              ></ButtonBase>
             </>
           }
         >
-          <FormSearchChildTemplate label={t("demoCrud.table.name")}>
+          <FormSearchChildTemplate label={t("systemMenu.table.name")}>
             <InputTextTemplate
               control={control}
               name="name"
             ></InputTextTemplate>
           </FormSearchChildTemplate>
 
-          <FormSearchChildTemplate label={t("demoCrud.table.code")}>
+          <FormSearchChildTemplate label={t("systemMenu.table.module")}>
             <InputTextTemplate
               control={control}
-              name="code"
+              name="module"
             ></InputTextTemplate>
           </FormSearchChildTemplate>
+
+          <FormSearchChildTemplate label={t("systemMenu.table.url")}>
+            <InputTextTemplate
+              control={control}
+              name="url"
+            ></InputTextTemplate>
+          </FormSearchChildTemplate>
+          
         </FormSearchTemplate>
       </CardLayoutTemplate>
       <TableTemplate
         title={() => (
           <>
-            <FontAwesomeBase className="mr-2" iconName={"list"} />{" "}
-            {t("titleTable")}
+            <FontAwesomeBase className="mr-2" iconName={"list"} />
+            <span className="title__table">{t("titleTable")}</span>
           </>
         )}
         active={
@@ -186,7 +218,6 @@ function Demo() {
                   `${ROUTER_BASE.systemMenuManagement.path}`,
                   {
                     state: {
-                      id: "hahahah",
                       mode: TYPE_MANAGEMENT.MODE_CREATE,
                     },
                   }
@@ -201,7 +232,6 @@ function Demo() {
         handlePaginationChange={handlePaginationChange}
         columns={columns}
         dataSource={data}
-        loading={loading}
         paginationProp={{
           current: getValues("current"),
           size: getValues("size"),
@@ -212,4 +242,4 @@ function Demo() {
   );
 }
 
-export default memo(Demo);
+export default memo(MenuMng);

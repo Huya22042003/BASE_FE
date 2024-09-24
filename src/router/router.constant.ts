@@ -2,8 +2,8 @@ import { RouterType } from "../interface/constants/router/RouterType.type";
 import { TYPE_MANAGEMENT } from "../interface/constants/type/Type.const";
 import demo from "../pages/demo";
 import demoManagement from "../pages/demo/demoManagement";
-import menu from "../pages/system-managent/menu";
-import menuManagement from "../pages/system-managent/menu/menuManagement";
+import menu from "../pages/systemManagent/menu";
+import menuManagement from "../pages/systemManagent/menu/menuManagement";
 import templateUi from "../pages/templateUi";
 
 const url = "/supper-admin";

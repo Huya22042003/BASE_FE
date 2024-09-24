@@ -2,7 +2,7 @@ import React, { memo } from "react";
 
 interface FormChildTemplateProps {
   title: String;
-  required: Boolean;
+  required?: Boolean;
   children: React.ReactNode;
 }
 const FormChildTemplate: React.FC<FormChildTemplateProps> = ({

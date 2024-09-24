@@ -18,6 +18,10 @@ import { DemoRequest } from "../../../../interface/demo/DemoRequest.interface";
 import SelectBoxTemplate from "../../../../components/input-form/SelectBoxTemplate";
 import { ICodeMng } from "../../../../interface/common/codeMng/CodeMng.interface";
 import { CheckValidate } from "../../../../app/reducers/common/Validate/Validate.reducer";
+import RadioboxTemplate from "../../../../components/input-form/RadioboxTemplate";
+import { AdMenuMngReqDto } from "../../../../service/systemManagenment/menuMng/menuMng.type";
+import ListRadioboxTemplate from "../../../../components/input-form/ListRadioboxTemplate";
+import { MenuMngApi } from "../../../../service/systemManagenment/menuMng/menuMng.service";
 
 function SystemMenuManagement() {
   const navigate = useNavigate();
@@ -27,15 +31,19 @@ function SystemMenuManagement() {
   const { t } = useTranslation();
   const { openNotification } = useNotification();
 //   const codeMngData = useAppSelector(GetCodeMng);
-  const dispatch = useAppDispatch();
   const { setLoading } = useGlobalLoading();
   const { openModal } = useModalProvider();
 
-  const { control, getValues, watch, reset } = useForm<DemoRequest>({
+  const { control, getValues, watch, reset } = useForm<AdMenuMngReqDto>({
     defaultValues: {
       id: "",
       name: "",
-      code: "",
+      icon: "",
+      keyLang: "",
+      module: "",
+      parentId: "",
+      url: "",
+      useYn: "",      
     },
   });
 
@@ -44,27 +52,30 @@ function SystemMenuManagement() {
     {
       value: "1",
       label: "Nút 1",
+      type: "a"
     },
     {
       value: "2",
       label: "Nút 2",
+      type: "a"
     },
     {
       value: "3",
       label: "Nút 3",
+      type: "a"
     },
     {
       value: "4",
       label: "Nút 4",
+      type: "a"
     },
     {
       value: "5",
       label: "Nút 5",
+      type: "a"
     },
   ] as ICodeMng[];
 
-  const nameWatch = watch("name");
-  const codeWatch = watch("code");
   const check = useAppSelector(CheckValidate);
 
   const back = () => {
@@ -87,41 +98,39 @@ function SystemMenuManagement() {
       t("common.confirm.title"),
       t("demo.confirmCreate"),
       () => {
-        // setLoading(true);
-        // ObjectsAPI.addObject(getValues())
-        //   .then((response) => {
-        //     if (
-        //       response.status &&
-        //       response.status === TYPE_MANAGEMENT.STATUS_SUCCESS
-        //     ) {
-        //       openNotification(
-        //         "success",
-        //         t("common.notification.success"),
-        //         t("demo.createSuccess")
-        //       );
-        //       back();
-        //     }
-        //   })
-        //   .catch((error) => {
-        //     if (
-        //       error.response &&
-        //       error.response.status === TYPE_MANAGEMENT.STATUS_ERROR_400
-        //     ) {
-        //       if (
-        //         error.response.data &&
-        //         error.response.data.status === TYPE_MANAGEMENT.STATUS_ERROR_400
-        //       ) {
-        //         openNotification(
-        //           "error",
-        //           t("common.notification.error"),
-        //           error.response.data
-        //         );
-        //       }
-        //     }
-        //   })
-        //   .finally(() => {
-        //     setLoading(false);
-        //   });
+        console.log(getValues());
+        
+        setLoading(true);
+        MenuMngApi.createMenu(getValues())
+          .then((response) => {
+            if (
+              response.status &&
+              response.status === TYPE_MANAGEMENT.STATUS_SUCCESS
+            ) {
+              openNotification(
+                "success",
+                t("common.notification.success"),
+                t("common.message.createSuccess")
+              );
+              back();
+            }
+          })
+          .catch((error) => {
+            if (
+              error.response &&
+              error.response.data &&
+              error.response.data.status === TYPE_MANAGEMENT.STATUS_ERROR_400
+            ) {
+              openNotification(
+                "error",
+                t("common.notification.error"),
+                error.response.data
+              );
+            }
+          })
+          .finally(() => {
+            setLoading(false);
+          });
       }
     );
   };
@@ -299,18 +308,19 @@ function SystemMenuManagement() {
         {/* form crud */}
         <FormTemplate contentSize={"70"} labelSize={"30"}>
           {/* content form crud */}
-          <FormChildTemplate
-            title={'Mã Menu'}
-            required={true}
-          >
-            <InputTextTemplate mode={mode} name="code" control={control} required={true} />
-          </FormChildTemplate>
 
           <FormChildTemplate
             title={'Tên Menu'}
             required={true}
           >
             <InputTextTemplate mode={mode} name="name" control={control} required={true} />
+          </FormChildTemplate>
+
+          <FormChildTemplate
+            title={'Key Menu'}
+            required={true}
+          >
+            <InputTextTemplate mode={mode} name="keyLang" control={control} required={true} />
           </FormChildTemplate>
 
           <FormChildTemplate
@@ -322,21 +332,18 @@ function SystemMenuManagement() {
           
           <FormChildTemplate
             title={'Icon'}
-            required={true}
           >
-            <InputTextTemplate mode={mode} name="icon" control={control} required={true} />
+            <InputTextTemplate mode={mode} name="icon" control={control} />
           </FormChildTemplate>
 
           <FormChildTemplate
             title={'Menu Parent'}
-            required={true}
           >
             <SelectBoxTemplate
               mode={mode}
               showSearch
               className="w-full"
               name="menuParent"
-              required={true}
               control={control}
               options={dataComponet}
             ></SelectBoxTemplate>
@@ -344,17 +351,28 @@ function SystemMenuManagement() {
 
           <FormChildTemplate
             title={'Order by'}
-            required={true}
           >
             <SelectBoxTemplate
               mode={mode}
               showSearch
               className="w-full"
               name="orderBy"
-              required={true}
               control={control}
               options={dataComponet}
             ></SelectBoxTemplate>
+          </FormChildTemplate>
+
+          <FormChildTemplate
+            title={'Sử dụng'}
+          >
+            <ListRadioboxTemplate
+              mode={mode}
+              name="useYn"
+              isCheck={false}
+              control={control}
+              options={dataComponet}
+            >
+            </ListRadioboxTemplate>
           </FormChildTemplate>
 
           <FormFooterTemplate>
@@ -364,21 +382,11 @@ function SystemMenuManagement() {
                 className="mx-2"
                 onClick={() => onCreate()}
               ></ButtonBase>
-            ) : mode === TYPE_MANAGEMENT.MODE_DETAIL ? (
-              <ButtonBase
-                category="goUpdate"
-                onClick={() =>
-                  navigate(
-                    `${ROUTER_BASE.systemMenu.path}/${TYPE_MANAGEMENT.MODE_UPDATE}?id=${id}`
-                  )
-                }
-                className="mx-2"
-              ></ButtonBase>
             ) : (
               <>
                 {" "}
                 <ButtonBase
-                    category="update"
+                  category="update"
                   className="mx-2"
                   onClick={() => onUpdate()}
                 ></ButtonBase>

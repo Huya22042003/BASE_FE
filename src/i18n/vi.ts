@@ -62,7 +62,8 @@ export const vi = {
       success: "Tải lên file thành công!"
     },
     message: {
-      required: "Bạn phải nhập đủ thông tin"
+      required: "Bạn phải nhập đủ thông tin",
+      updateDataSuccess: "Dữ liệu đã được cập nhật."
     }
   },
   base: {
@@ -136,7 +137,9 @@ export const vi = {
     },
     table: {
       name: "Tên Menu",
-      code: "Mã Menu",
+      parent: "Menu cha",
+      module: "Thuộc Module",
+      url: "Đường dẫn",
     },
     titleCreate: "Thêm Menu",
     titleUpdate: "Sửa Menu",

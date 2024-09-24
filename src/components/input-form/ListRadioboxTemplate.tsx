@@ -5,20 +5,13 @@ import { TYPE_MANAGEMENT } from "../../interface/constants/type/Type.const";
 import { ICodeMng } from "../../interface/common/codeMng/CodeMng.interface";
 import { useTranslation } from "react-i18next";
 
-type Props = {
-  options: ICodeMng[]|undefined;
-  name: string;
-  control: any;
-  mode?: string;
-  isCheck: Boolean;
-};
-
-const ListRadioboxTemplate: React.FC<Props> = ({
+const ListRadioboxTemplate: React.FC<any> = ({
   options,
   control,
   name,
   mode,
   isCheck,
+  ...restProps
 }) => {
   const {
     field: { onChange, value },
